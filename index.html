@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>P&L Performance Dashboard</title>
+  <!-- Google Fonts: Plus Jakarta Sans for a premium look -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="styles.css">
+  
+  <!-- CDNs for Parsing, Graphing and Icons -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+  <!-- Background Decorative Gradients -->
+  <div class="bg-glow bg-glow-1"></div>
+  <div class="bg-glow bg-glow-2"></div>
+  <div class="bg-glow bg-glow-3"></div>
+
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="brand">
+        <div class="logo-glow">
+          <i data-lucide="trending-up" class="icon-brand"></i>
+        </div>
+        <div class="brand-text">
+          <h1>Dabble P&L Dashboard</h1>
+          <p>Real-time Channel Performance & Spend Analytics</p>
+        </div>
+      </div>
+      
+      <!-- Filters and Navigation -->
+      <div class="controls-row">
+        <div class="month-selector">
+          <button class="month-btn active" data-month="june">
+            <span class="indicator green"></span>
+            June 2026
+          </button>
+          <button class="month-btn" data-month="may">
+            <span class="indicator blue"></span>
+            May 2026
+          </button>
+          <button class="month-btn" data-month="compare">
+            <span class="indicator purple"></span>
+            Compare MoM
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- KPI Summary Section -->
+    <section class="kpi-grid">
+      <!-- Total GMV -->
+      <div class="card kpi-card glow-emerald">
+        <div class="kpi-header">
+          <span class="kpi-title">Total GMV</span>
+          <div class="kpi-icon bg-emerald-light">
+            <i data-lucide="indian-rupee" class="text-emerald"></i>
+          </div>
+        </div>
+        <div class="kpi-value" id="kpi-total-gmv">₹0</div>
+        <div class="kpi-footer">
+          <span class="kpi-trend text-emerald" id="trend-gmv">
+            <i data-lucide="arrow-up-right" class="trend-icon"></i>
+            <span id="trend-gmv-pct">0%</span>
+          </span>
+          <span class="kpi-footer-desc">vs Previous Month</span>
+        </div>
+      </div>
+
+      <!-- Total Spends -->
+      <div class="card kpi-card glow-indigo">
+        <div class="kpi-header">
+          <span class="kpi-title">Total Spends</span>
+          <div class="kpi-icon bg-indigo-light">
+            <i data-lucide="wallet" class="text-indigo"></i>
+          </div>
+        </div>
+        <div class="kpi-value" id="kpi-total-spends">₹0</div>
+        <div class="kpi-footer">
+          <span class="kpi-trend text-indigo" id="trend-spends">
+            <i data-lucide="arrow-down-right" class="trend-icon"></i>
+            <span id="trend-spends-pct">0%</span>
+          </span>
+          <span class="kpi-footer-desc">vs Previous Month</span>
+        </div>
+      </div>
+
+      <!-- Blended ROAS -->
+      <div class="card kpi-card glow-amber">
+        <div class="kpi-header">
+          <span class="kpi-title">Blended ROAS</span>
+          <div class="kpi-icon bg-amber-light">
+            <i data-lucide="percent" class="text-amber"></i>
+          </div>
+        </div>
+        <div class="kpi-value" id="kpi-blended-roas">0.00x</div>
+        <div class="kpi-footer">
+          <span class="kpi-trend text-amber" id="trend-roas">
+            <i data-lucide="arrow-up-right" class="trend-icon"></i>
+            <span id="trend-roas-val">+0.0</span>
+          </span>
+          <span class="kpi-footer-desc">vs Previous Month</span>
+        </div>
+      </div>
+
+      <!-- Channel Share -->
+      <div class="card kpi-card glow-violet">
+        <div class="kpi-header">
+          <span class="kpi-title">Website GMV Share</span>
+          <div class="kpi-icon bg-violet-light">
+            <i data-lucide="globe" class="text-violet"></i>
+          </div>
+        </div>
+        <div class="kpi-value" id="kpi-website-share">0.0%</div>
+        <div class="kpi-footer">
+          <span class="kpi-trend" id="kpi-top-channel-tag">Website contribution</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Plan & Target Performance Section -->
+    <section class="targets-section">
+      <!-- Target Achievement Dabble Website -->
+      <div class="card target-card">
+        <div class="target-head">
+          <div>
+            <h3>Dabble Website Target</h3>
+            <p>Target Achievement & Performance</p>
+          </div>
+          <span class="target-badge" id="target-dabble-ach-badge">0% Ach.</span>
+        </div>
+        <div class="target-progress-wrapper">
+          <div class="target-details">
+            <div>
+              <span class="label">Plan</span>
+              <span class="val" id="target-dabble-plan">₹0</span>
+            </div>
+            <div>
+              <span class="label">Actual</span>
+              <span class="val highlighted" id="target-dabble-act">₹0</span>
+            </div>
+          </div>
+          <div class="progress-bar-container">
+            <div class="progress-bar glow-glow" id="target-dabble-bar" style="width: 0%"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Target Achievement Dabble + 3P -->
+      <div class="card target-card">
+        <div class="target-head">
+          <div>
+            <h3>Dabble + 3P (All Channels) Target</h3>
+            <p>Target Achievement & Performance</p>
+          </div>
+          <span class="target-badge secondary" id="target-all-ach-badge">0% Ach.</span>
+        </div>
+        <div class="target-progress-wrapper">
+          <div class="target-details">
+            <div>
+              <span class="label">Plan</span>
+              <span class="val" id="target-all-plan">₹0</span>
+            </div>
+            <div>
+              <span class="label">Actual</span>
+              <span class="val highlighted-sec" id="target-all-act">₹0</span>
+            </div>
+          </div>
+          <div class="progress-bar-container">
+            <div class="progress-bar glow-glow secondary" id="target-all-bar" style="width: 0%"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Workspace: Charts and Side Information -->
+    <div class="dashboard-grid">
+      <!-- Chart Workspace Card -->
+      <div class="card chart-workspace">
+        <div class="workspace-header">
+          <div class="tabs-container">
+            <button class="tab-btn active" data-tab="overview">
+              <i data-lucide="activity"></i> Overview Trend
+            </button>
+            <button class="tab-btn" data-tab="channels">
+              <i data-lucide="bar-chart-3"></i> Channel Distribution
+            </button>
+            <button class="tab-btn" data-tab="roas">
+              <i data-lucide="line-chart"></i> Advertising ROAS
+            </button>
+          </div>
+          <div class="chart-actions">
+            <span class="chart-legend" id="chart-sub-label">Daily performance timelines</span>
+          </div>
+        </div>
+        
+        <div class="chart-content">
+          <div id="main-analytics-chart" class="chart-wrapper"></div>
+        </div>
+      </div>
+
+      <!-- Sidebar: Google Ads Tracking Log & Channel Summary Card -->
+      <div class="side-panel-container">
+        <!-- Channel Aggregates Card -->
+        <div class="card side-panel-card">
+          <div class="panel-header">
+            <h3><i data-lucide="layers" class="panel-icon text-indigo"></i> Channel Mix</h3>
+          </div>
+          <div class="channel-list" id="channel-contribution-list">
+            <!-- Channel items dynamically inserted here -->
+            <div class="channel-item-shimmer">Loading channel data...</div>
+          </div>
+        </div>
+
+        <!-- Google Budget Tracker -->
+        <div class="card side-panel-card" id="google-tracking-card">
+          <div class="panel-header">
+            <h3><i data-lucide="credit-card" class="panel-icon text-amber"></i> Google Ads Top-ups</h3>
+            <span class="sub-badge" id="google-tracking-count">0 top-ups</span>
+          </div>
+          <div class="google-tracker-content">
+            <div class="ledger-header">
+              <span>Date</span>
+              <span>Amount</span>
+              <span>Status</span>
+            </div>
+            <div class="ledger-list" id="google-ledger-list">
+              <!-- Dynamically populated google tracking log -->
+              <div class="channel-item-shimmer">Loading tracking data...</div>
+            </div>
+            <div class="ledger-footer" id="google-ledger-footer">
+              <span>Total Top-up:</span>
+              <span id="google-total-topup">₹0</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Data Table Card -->
+    <section class="card data-grid-card">
+      <div class="grid-header">
+        <div class="grid-title-wrapper">
+          <h3><i data-lucide="table" class="grid-header-icon text-emerald"></i> Daily Log Sheets</h3>
+          <p>Complete transaction logs, metrics breakdowns, and growth indicators</p>
+        </div>
+        <div class="grid-controls">
+          <div class="search-box">
+            <i data-lucide="search" class="search-icon"></i>
+            <input type="text" id="table-search" placeholder="Search logs...">
+          </div>
+          <button class="action-btn" id="export-csv-btn">
+            <i data-lucide="download"></i> Export Data
+          </button>
+        </div>
+      </div>
+      
+      <div class="table-scroll-wrapper">
+        <table class="data-table" id="dashboard-table">
+          <thead>
+            <tr>
+              <th data-sort="Date">Date <i data-lucide="arrow-up-down" class="sort-icon"></i></th>
+              <th data-sort="Website GMV">Web GMV <i data-lucide="arrow-up-down" class="sort-icon"></i></th>
+              <th data-sort="Website Ads Spends">Web Ads Spend <i data-lucide="arrow-up-down" class="sort-icon"></i></th>
+              <th data-sort="Meta ROAS">Meta ROAS <i data-lucide="arrow-up-down" class="sort-icon"></i></th>
+              <th data-sort="Google Ads ROAS">Google ROAS <i data-lucide="arrow-up-down" class="sort-icon"></i></th>
+              <th data-sort="Amazon GMV">Amazon GMV <i data-lucide="arrow-up-down" class="sort-icon"></i></th>
+              <th data-sort="Amazon Ads Spends">Amazon Spend <i data-lucide="arrow-up-down" class="sort-icon"></i></th>
+              <th data-sort="BlinkIT GMV">BlinkIT GMV <i data-lucide="arrow-up-down" class="sort-icon"></i></th>
+              <th data-sort="BlinkIT Ads Spend">BlinkIT Spend <i data-lucide="arrow-up-down" class="sort-icon"></i></th>
+              <th data-sort="Total GMV">Total GMV <i data-lucide="arrow-up-down" class="sort-icon"></i></th>
+              <th data-sort="Growth-Degrowth">Growth <i data-lucide="arrow-up-down" class="sort-icon"></i></th>
+            </tr>
+          </thead>
+          <tbody id="table-body">
+            <!-- Dynamically populated rows -->
+            <tr>
+              <td colspan="11" class="text-center py-8">Loading dashboard logs...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <footer class="app-footer">
+    <p>Powered by Antigravity Design System • All rights reserved &copy; 2026</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="app.js?v=3"></script>
+</body>
+</html>
