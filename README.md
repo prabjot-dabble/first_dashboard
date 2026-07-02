@@ -2,6 +2,8 @@
 
 A premium, interactive web application to visualize and analyze daily Profit & Loss (P&L), marketing spends, ROAS, and monthly target completions for the Dabble brand.
 
+Live Demo : https://first-dashboard-iota.vercel.app/
+
 ## Key Features
 - **Month-over-Month Filter Toggles**: Dynamically switch dashboard views between May 2026, June 2026, or a Comparative View.
 - **Interactive Timelines & Mix Charts**: Custom visual graphs utilizing **ApexCharts** to track Total GMV, marketing costs, and ROAS contributions.
